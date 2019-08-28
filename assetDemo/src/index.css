@@ -1,0 +1,13 @@
+@font-face {
+  font-family: MyFont;
+  src: url("./opensanscondensed-bold-webfont.ttf") format("ttf"),
+    url("./opensanscondensed-bold-webfont.woff") format("woff"),
+    url("./opensanscondensed-bold-webfont.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+.mainColor {
+  color: blue;
+  /* background-image: url("./google_icon.svg"); */
+  font-family: MyFont;
+}

@@ -1,12 +1,9 @@
-import printMe from "./print";
+// import Print from './out';
+import _ from "lodash";
 function component() {
   var element = document.createElement("div");
-
   element.innerHTML = "webpack test";
-  var btn = document.createElement("button");
-  btn.innerHTML = "点击这里，然后查看 console！";
-  btn.onclick = printMe;
-  element.appendChild(btn);
+  // element.onclick = Print.bind(null, 'Hello webpack!');
   return element;
 }
 

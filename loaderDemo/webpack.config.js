@@ -11,13 +11,13 @@ module.exports = {
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "dist"),
-    publicPath: "/"
+    path: path.resolve(__dirname, "dist")
+    // publicPath: "/"
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "管理输出"
+      title: "loader"
     })
   ],
   module: {
@@ -25,6 +25,25 @@ module.exports = {
       {
         test: /\.txt$/i,
         use: "raw-loader"
+      },
+      {
+        test: /target-file.js$/,
+        use: [
+          {
+            loader: `val-loader`
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192
+            }
+          }
+        ]
       }
     ]
   }

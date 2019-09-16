@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -15,6 +16,11 @@ module.exports = {
     // publicPath: "/"
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env": {
+        NODE_ENV: '"development"'
+      }
+    }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "loader"
@@ -34,15 +40,96 @@ module.exports = {
           }
         ]
       },
+      // {
+      //   test: /\.(png|jpg|gif)$/,
+      //   use: [
+      //     {
+      //       loader: "url-loader",
+      //       options: {
+      //         limit: 8192
+      //       }
+      //     }
+      //   ]
+      // }
       {
         test: /\.(png|jpg|gif)$/,
         use: [
           {
-            loader: "url-loader",
+            loader: "file-loader",
             options: {
-              limit: 8192
+              // string
+              name: "[hash].[ext]",
+              // Function
+              // name(file) {
+              //   console.log("name(file)");
+              //   console.log(process.env.NODE_ENV);
+
+              //   if (process.env.NODE_ENV === "development") {
+              //     console.log("name(file) dev return");
+
+              //     return "[path][name].[ext]";
+              //   }
+
+              //   return "[hash].[ext]";
+              // }
+
+              // String
+              // outputPath: "assets",
+
+              // Function
+              outputPath: (url, resourcePath, context) => {
+                // `resourcePath` is original absolute path to asset
+                // `context` is directory where stored asset (`rootContext`) or `context` option
+
+                // To get relative path you can use
+                const relativePath = path.relative(context, resourcePath);
+
+                console.log(context);
+                console.log(resourcePath);
+                console.log(relativePath);
+                console.log(url);
+
+                if (/imgs/.test(relativePath)) {
+                  return `image_output_path/${url}`;
+                }
+
+                return `output_path/${url}`;
+              },
+
+              // String
+              // publicPath: "assets",
+              // Function
+              outputPath: (url, resourcePath, context) => {
+                // `resourcePath` is original absolute path to asset
+                // `context` is directory where stored asset (`rootContext`) or `context` option
+
+                // To get relative path you can use
+                const relativePath = path.relative(context, resourcePath);
+
+                console.log(context);
+                console.log(resourcePath);
+                console.log(relativePath);
+                console.log(url);
+
+                if (/imgs/.test(relativePath)) {
+                  return `image_output_path/${url}`;
+                }
+
+                return `output_path/${url}`;
+              },
+              // context: "./src/imgs"
+              emitFile: true,
+              regExp: /([0-9]+)\.jpg$/
             }
           }
+        ]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          { loader: "file-loader" },
+          { loader: "extract-loader" },
+          { loader: "ref-loader" }
         ]
       }
     ]

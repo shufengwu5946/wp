@@ -1,0 +1,5 @@
+{
+    //hehe
+  env: 'production',
+  passwordStrength: 'strong',
+}

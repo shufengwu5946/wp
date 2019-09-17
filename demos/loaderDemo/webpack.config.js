@@ -106,10 +106,10 @@ module.exports = {
                 // To get relative path you can use
                 const relativePath = path.relative(context, resourcePath);
 
-                console.log(context);
-                console.log(resourcePath);
-                console.log(relativePath);
-                console.log(url);
+                // console.log(context);
+                // console.log(resourcePath);
+                // console.log(relativePath);
+                // console.log(url);
 
                 if (/imgs/.test(relativePath)) {
                   return `image_output_path/${url}`;
@@ -124,12 +124,59 @@ module.exports = {
           }
         ]
       },
+
+      //???
+      // {
+      //   test: /\.html$/,
+      //   use: [
+      //     { loader: "file-loader" },
+      //     { loader: "extract-loader" },
+      //     { loader: "ref-loader" }
+      //   ]
+      // }
       {
-        test: /\.html$/,
+        test: /\.jso$/,
+        loader: "json-loader"
+      },
+      {
+        // 使所有以 .json5 结尾的文件使用 `json5-loader`
+        test: /\.json5$/,
+        loader: "json5-loader"
+      },
+      {
+        // 使所有以 .json5 结尾的文件使用 `json5-loader`
+        test: /\.cson$/,
+        loader: "cson-loader"
+      },
+      // {
+      //   test: /\.css$/,
+      //   use: [
+      //     { loader: "style-loader/url", options: { sourceMap: true } },
+      //     { loader: "file-loader" }
+      //   ]
+      // }
+      {
+        test: /\.css$/,
+        exclude: /\.useable\.css$/,
         use: [
-          { loader: "file-loader" },
-          { loader: "extract-loader" },
-          { loader: "ref-loader" }
+          { loader: "style-loader" },
+          {
+            loader: "css-loader",
+            options: {
+              modules: true
+            }
+          }
+        ]
+      },
+      {
+        test: /\.useable\.css$/,
+        use: [
+          {
+            loader: "style-loader/useable"
+          },
+          {
+            loader: "css-loader"
+          }
         ]
       }
     ]

@@ -1,0 +1,7 @@
+.fontColor {
+  color: yellow;
+}
+
+:global(.fontColor) {
+  color: blue;
+}
